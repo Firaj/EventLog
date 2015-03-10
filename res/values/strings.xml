@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EventLog</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="drawer_open">drawer_open</string>
+    <string name="drawer_close">drawer_close</string>
+
+    <string-array name="controls">
+        <item>AA</item>
+        <item>BB</item>
+        <item>CC</item>
+        <item>DD</item>
+        <item>EE</item>
+        <item>AA</item>
+        <item>BB</item>
+        <item>CC</item>
+        <item>DD</item>
+        <item>EE</item>
+        <item>AA</item>
+        <item>BB</item>
+        <item>CC</item>
+        <item>DD</item>
+        <item>EE</item>
+    </string-array>
+
+    <string name="title_activity_join_us">JoinUsActivity</string>
+
+</resources>
