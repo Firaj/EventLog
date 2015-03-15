@@ -7,20 +7,22 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
+import com.special.ResideMenu.ResideMenu;
+import com.special.ResideMenu.ResideMenuItem;
 
-public class MainActivity extends Activity implements OnItemClickListener {
+public class MainActivity extends Activity implements  View.OnClickListener  {
 
 	// navigator
 	private DrawerLayout drawerLayout;
@@ -31,6 +33,14 @@ public class MainActivity extends Activity implements OnItemClickListener {
 	private GoogleMap googleMap;
 	MapView mMapView;
 
+	//reside menu
+	  private ResideMenu resideMenu;
+	    private MainActivity mContext;
+	    private ResideMenuItem itemHome;
+	    private ResideMenuItem itemProfile;
+	    private ResideMenuItem itemCalendar;
+	    private ResideMenuItem itemSettings;
+	
 	// drawer
 	private ActionBarDrawerToggle mDrawerToggle;
 	private DrawerArrowDrawable drawerArrow;
@@ -41,6 +51,10 @@ public class MainActivity extends Activity implements OnItemClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		mContext = this;
+        setUpMenu();
+
+
 		ActionBar ab = getActionBar();
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setHomeButtonEnabled(true);
@@ -64,7 +78,7 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		recentList = (ListView) findViewById(R.id.recentList);
 		recentList.setAdapter(new NavigatorAdapter(this, R.layout.recentitem,
 				controls));
-		recentList.setOnItemClickListener(this);
+		//recentList.setOnItemClickListener(this);
 
 		mMapView = (MapView) findViewById(R.id.mapView);
 		mMapView.onCreate(savedInstanceState);
@@ -134,15 +148,11 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		listView = (ListView) findViewById(R.id.drawerList);
 		listView.setAdapter(new NavigatorAdapter(this, R.layout.navigator,
 				controls));
-		listView.setOnItemClickListener(this);
+		//listView.setOnItemClickListener(this);
 
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -167,5 +177,92 @@ public class MainActivity extends Activity implements OnItemClickListener {
 		super.onConfigurationChanged(newConfig);
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+	
+	 private void setUpMenu() {
+
+	        // attach to current activity;
+	        resideMenu = new ResideMenu(this);
+	        resideMenu.setBackground(android.R.color.black);
+	        resideMenu.attachToActivity(this);
+	        resideMenu.setMenuListener(menuListener);
+	        //valid scale factor is between 0.0f and 1.0f. leftmenu'width is 150dip. 
+	        resideMenu.setScaleValue(0.6f);
+
+	        // create menu items;
+	        itemHome     = new ResideMenuItem(this, R.drawable.ic_launcher,     "Home");
+	        itemProfile  = new ResideMenuItem(this, R.drawable.ic_launcher,  "Profile");
+	        itemCalendar = new ResideMenuItem(this, R.drawable.ic_launcher, "Calendar");
+	        itemSettings = new ResideMenuItem(this, R.drawable.ic_launcher, "Settings");
+
+	        itemHome.setOnClickListener(this);
+	        itemProfile.setOnClickListener(this);
+	        itemCalendar.setOnClickListener(this);
+	        itemSettings.setOnClickListener(this);
+	        
+
+	        resideMenu.addMenuItem(itemHome, ResideMenu.DIRECTION_RIGHT);
+	        resideMenu.addMenuItem(itemProfile, ResideMenu.DIRECTION_RIGHT);
+	        resideMenu.addMenuItem(itemCalendar, ResideMenu.DIRECTION_RIGHT);
+	        resideMenu.addMenuItem(itemSettings, ResideMenu.DIRECTION_RIGHT);
+
+	        // You can disable a direction by setting ->
+	         resideMenu.setSwipeDirectionDisable(ResideMenu.DIRECTION_LEFT);
+
+	        /*findViewById(R.id.title_bar_left_menu).setOnClickListener(new View.OnClickListener() {
+	            @Override
+	            public void onClick(View view) {
+	                resideMenu.openMenu(ResideMenu.DIRECTION_LEFT);
+	            }
+	        });
+	        findViewById(R.id.title_bar_right_menu).setOnClickListener(new View.OnClickListener() {
+	            @Override
+	            public void onClick(View view) {
+	                resideMenu.openMenu(ResideMenu.DIRECTION_RIGHT);
+	            }
+	        });*/
+	         
+
+	         //resideMenu.addIgnoredView(listView);
+	    }
+
+	    @Override
+	    public boolean dispatchTouchEvent(MotionEvent ev) {
+	        return resideMenu.dispatchTouchEvent(ev);
+	    }
+
+	    @Override
+	    public void onClick(View view) {
+
+	        if (view == itemHome){
+	            //changeFragment(new HomeFragment());
+	        }else if (view == itemProfile){
+	           // changeFragment(new ProfileFragment());
+	        }else if (view == itemCalendar){
+	            //changeFragment(new CalendarFragment());
+	        }else if (view == itemSettings){
+	           // changeFragment(new SettingsFragment());
+	        }
+
+	        resideMenu.closeMenu();
+	    }
+
+	    private ResideMenu.OnMenuListener menuListener = new ResideMenu.OnMenuListener() {
+	        @Override
+	        public void openMenu() {
+	            Toast.makeText(mContext, "Menu is opened!", Toast.LENGTH_SHORT).show();
+	        }
+
+	        @Override
+	        public void closeMenu() {
+	            Toast.makeText(mContext, "Menu is closed!", Toast.LENGTH_SHORT).show();
+	        }
+	    };
+
+	    
+
+	    // What good method is to access resideMenu？
+	    public ResideMenu getResideMenu(){
+	        return resideMenu;
+	    }
 
 }

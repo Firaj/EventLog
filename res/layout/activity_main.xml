@@ -46,9 +46,9 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/title"
+            android:layout_marginRight="10dp"
             android:background="@android:color/transparent"
             android:text="Join us"
             android:textColor="@color/light_gray" />
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/shadow"
+                android:background="@drawable/shadowlayout"
                 android:orientation="vertical" >
 
                 <EditText
@@ -87,7 +87,7 @@
                 android:layout_alignLeft="@+id/describe"
                 android:layout_below="@+id/search"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/shadow"
+                android:background="@drawable/shadowlayout"
                 android:orientation="vertical"
                 android:padding="5dp" >
 
@@ -111,7 +111,7 @@
                 android:layout_height="150dp"
                 android:layout_above="@+id/base"
                 android:layout_alignLeft="@+id/search"
-                android:background="@drawable/shadow"
+                android:background="@drawable/shadowlayout"
                 android:baselineAligned="false"
                 android:orientation="vertical"
                 android:padding="5dp" >
